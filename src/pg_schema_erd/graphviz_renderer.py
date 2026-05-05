@@ -9,7 +9,7 @@ from .models import Column, Relationship, Schema, Table
 def schema_to_dot(schema: Schema) -> str:
     lines = [
         "digraph ERD {",
-        '  graph [rankdir=LR, splines=true, pad="0.3"];',
+        '  graph [rankdir=LR, orientation=landscape, size="11.0,8.5!", ratio=fill, pad="0.3", nodesep="0.6", ranksep="1.0", splines=true];',
         '  node [shape=plain, fontname="Helvetica"];',
         '  edge [fontname="Helvetica", arrowsize=0.8];',
     ]

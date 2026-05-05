@@ -56,7 +56,7 @@ def _parse_create_table(raw_name: str, body: str) -> Table:
         if upper.startswith("CONSTRAINT "):
             constraint_body = definition.split(None, 2)[2]
             parsed = _parse_table_constraint(table.name, constraint_body)
-        elif upper.startswith("PRIMARY KEY") or upper.startswith("FOREIGN KEY"):
+        elif _is_table_constraint_definition(upper):
             parsed = _parse_table_constraint(table.name, definition)
         else:
             column = _parse_column_definition(table.name, definition)
@@ -87,6 +87,12 @@ def _parse_create_table(raw_name: str, body: str) -> Table:
         table.relationships.append(relationship)
 
     return table
+
+
+def _is_table_constraint_definition(upper_definition: str) -> bool:
+    return upper_definition.startswith(
+        ("PRIMARY KEY", "FOREIGN KEY", "UNIQUE", "CHECK", "EXCLUDE")
+    )
 
 
 def _parse_table_constraint(table_name: str, definition: str):

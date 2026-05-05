@@ -31,6 +31,8 @@ class GraphvizRendererTests(unittest.TestCase):
         self.assertIn("Type", dot)
         self.assertIn("author_id [FK]", dot)
         self.assertIn('"books" -> "authors"', dot)
+        self.assertIn('orientation=landscape', dot)
+        self.assertIn('size="11.0,8.5!"', dot)
         self.assertIn('arrowhead="normal"', dot)
 
     def test_renders_png_file(self) -> None:

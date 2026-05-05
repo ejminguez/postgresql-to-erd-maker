@@ -58,6 +58,27 @@ class ParseSchemaTests(unittest.TestCase):
         )
         self.assertIn("things", schema.tables)
 
+    def test_ignores_non_foreign_key_table_constraints(self) -> None:
+        schema = parse_schema(
+            """
+            CREATE TABLE growth_stage (
+                id integer PRIMARY KEY,
+                crop_id integer NOT NULL,
+                stage_name text NOT NULL,
+                stage_order integer NOT NULL,
+                UNIQUE(crop_id, stage_name),
+                UNIQUE(crop_id, stage_order),
+                CHECK (stage_order > 0)
+            );
+            """
+        )
+
+        table = schema.tables["growth_stage"]
+        self.assertEqual(
+            ["id", "crop_id", "stage_name", "stage_order"],
+            [column.name for column in table.columns],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
